@@ -1,0 +1,17 @@
+Before Tet: 1/26
+- Added bullets group
+- Completed removing old bullets
+- // TODO: why use bullets.copy()
+
+Press ESC key to quit the game
+
+2/22
+- Create an alian class
+- Build an alien fleet: a group of aliens
+
+2/23
+- create fleet filled with rows and columns
+- make them move!
+
+3/6
+- BUGS with fleet movement -> slide down instead of dropping down (Bao's code works though?)
