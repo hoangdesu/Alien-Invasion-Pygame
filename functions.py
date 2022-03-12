@@ -51,14 +51,6 @@ def update_screen(screen, game_settings, spaceShip, bullets, aliens):
     pg.display.flip()
 
 
-# Update the position of all the bullets, also remove old bullets
-def update_bullets(bullets):
-    bullets.update()
-    # remove bullets that are out of the screen
-    for bullet in bullets.copy():
-        if bullet.rect.bottom < 0:
-            bullets.remove(bullet)
-    # print("Bullets:", len(bullets))
     
     
 def get_total_number_of_aliens_on_a_row(game_settings, alien_width):
@@ -107,14 +99,36 @@ def change_fleet_direction(game_settings, aliens):
     for each_alien in aliens.sprites():
         each_alien.rect.y += game_settings.fleet_dropdown_speed
     game_settings.fleet_direction = -(game_settings.fleet_direction)
+    # print("FLEET DIRECTION", game_settings.fleet_direction)
         
         
 def check_fleet_collide_with_edges(game_settings, aliens):
     for each_alien in aliens.sprites():
         if each_alien.check_collide_with_edges():
             change_fleet_direction(game_settings, aliens)
+            break
         
     
 def update_fleet(game_settings, aliens):
     check_fleet_collide_with_edges(game_settings, aliens)
     aliens.update()
+    
+
+# Update the position of all the bullets, also remove old bullets
+def update_bullets(bullets, aliens, game_settings, screen, ship):
+    bullets.update()
+    # remove bullets that are out of the screen
+    for bullet in bullets.copy():
+        if bullet.rect.bottom < 0:
+            bullets.remove(bullet)
+    # print("Bullets:", len(bullets))
+    
+    # if bullets hit aliens, kill both of the sprite groups
+    collsions = pg.sprite.groupcollide(aliens, bullets, True, True)
+    # print(collsions)
+    
+    # spawn a new fleet when all the aliens are cleared!
+    if (len(aliens) == 0):
+        bullets.empty()
+        create_fleet(screen, game_settings, aliens, ship)
+        print("NEW FLEET SPAWN!!!")

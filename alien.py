@@ -30,10 +30,12 @@ class Alien(Sprite):
     def update(self):
         self.x += self.game_settings.alien_speed * self.game_settings.fleet_direction
         self.rect.x = self.x
+        # print("[SELF.RECT.RIGHT]:", self.rect.right, " -- [SCREEN RECT RIGHT]:", self.screen.get_rect().right)
         
 
     def draw(self):
         self.screen.blit(self.sprite, self.rect)
+        self.screen.blit(self.rect, self.rect)
         
         
 

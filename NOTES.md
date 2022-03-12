@@ -14,4 +14,8 @@ Press ESC key to quit the game
 - make them move!
 
 3/6
-- BUGS with fleet movement -> slide down instead of dropping down (Bao's code works though?)
+- BUGS with fleet movement -> slide down instead of dropping down (Bao's code works though?) 
+-> 3/9: bug fixed (added a break)
+
+3/12
+- detect collision with sprite.groupcollide()

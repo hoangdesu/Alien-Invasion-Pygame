@@ -6,7 +6,6 @@ from ship import Ship
 import functions as funcs
 from pygame.sprite import Group
 
-
 def main():
     pg.init()
     
@@ -26,7 +25,7 @@ def main():
     while True:
         funcs.check_input_events(spaceShip, game_settings, screen, bullets)
         spaceShip.update()
-        funcs.update_bullets(bullets)
+        funcs.update_bullets(bullets, aliens, game_settings, screen, spaceShip)
         funcs.update_fleet(game_settings, aliens)
         funcs.update_screen(screen, game_settings, spaceShip, bullets, aliens)
 
