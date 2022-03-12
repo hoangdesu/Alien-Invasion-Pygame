@@ -19,3 +19,7 @@ Press ESC key to quit the game
 
 3/12
 - detect collision with sprite.groupcollide()
+- spawn new fleet
+- if aliens touch ship -> lose
+- reset the game when aliens touch ship
+- aliens touch bottom?

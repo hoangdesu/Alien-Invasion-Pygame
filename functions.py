@@ -1,9 +1,11 @@
 import sys
 from zoneinfo import available_timezones
 import pygame as pg
+from time import sleep
 
 from bullet import Bullet
 from alien import Alien
+
 
 # helper functions
 def check_keydown_events(event, spaceShip, settings, screen, bullets):
@@ -88,8 +90,6 @@ def create_fleet(screen, game_settings, aliens, ship):
     for row_number in range(total_rows):
         for alien_index in range(total_aliens_on_row):
             create_new_alien(screen, game_settings, aliens, alien_width, alien_index, row_number)
-        print("ALIENS:", len(aliens))
-    
     
     # 1. available space = sreen width - (gap * x width of 1 alien)
     # 2 total numbers of aliens that i can fit on 1 row = total space / (gap * width of 1 alien)
@@ -109,9 +109,15 @@ def check_fleet_collide_with_edges(game_settings, aliens):
             break
         
     
-def update_fleet(game_settings, aliens):
+def update_fleet(game_settings, screen, game_stats, aliens, ship, bullets):
     check_fleet_collide_with_edges(game_settings, aliens)
     aliens.update()
+
+    # check collision between ship vs any alien sprite
+    if pg.sprite.spritecollideany(ship, aliens):
+        reset_game(game_settings, screen, game_stats, ship, aliens, bullets)
+        
+    aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bullets)
     
 
 # Update the position of all the bullets, also remove old bullets
@@ -132,3 +138,31 @@ def update_bullets(bullets, aliens, game_settings, screen, ship):
         bullets.empty()
         create_fleet(screen, game_settings, aliens, ship)
         print("NEW FLEET SPAWN!!!")
+        
+        
+def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
+    if game_stats.ship_lives > 0:
+        # take away one live
+        game_stats.ship_lives -= 1
+    
+    
+        # clear all the sprites on screen
+        bullets.empty()
+        aliens.empty()
+        
+        # spawn a new fleet again
+        create_fleet(screen, game_settings, aliens, ship)
+        
+        # pause for 1s before the replay
+        sleep(1)
+        
+    else:
+        # set the game state to be over
+        game_stats.game_over = True
+    
+    
+def aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bullets):
+    for alien in aliens.sprites():
+        if alien.rect.bottom > screen.get_rect().bottom:
+            reset_game(game_settings, screen, game_stats, ship, aliens, bullets)
+            break
