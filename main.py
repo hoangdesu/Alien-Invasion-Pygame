@@ -6,6 +6,7 @@ from settings import Settings
 from ship import Ship
 import functions as funcs
 from stats import Stats
+from button import Button
 
 def main():
     pg.init()
@@ -19,22 +20,23 @@ def main():
     
     spaceShip = Ship(screen, game_settings)
     bullets = Group()
-
     aliens = Group()
     funcs.create_fleet(screen, game_settings, aliens, spaceShip)
+
+    playBtn = Button(game_settings, screen, "Play!")    
+    
     
     # main game loop
     while True:
-        funcs.check_input_events(spaceShip, game_settings, screen, bullets)
+        funcs.check_input_events(game_settings, screen, game_stats, spaceShip, aliens, bullets, playBtn)
         
         if game_stats.game_over == False:
             spaceShip.update()
             funcs.update_bullets(bullets, aliens, game_settings, screen, spaceShip)
             funcs.update_fleet(game_settings, screen, game_stats, aliens, spaceShip, bullets)
-            funcs.update_screen(screen, game_settings, spaceShip, bullets, aliens)
-        else:
-            pg.display.flip()
-            print("Game over :(")
+            funcs.update_screen(screen, game_settings, game_stats, spaceShip, bullets, aliens, playBtn)
 
 if __name__ == '__main__':    
     main()
+
+    

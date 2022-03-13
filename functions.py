@@ -28,8 +28,9 @@ def check_keyup_events(event, spaceShip):
     
 
 # ------------ check for mouse and keyboard inputs --------------
-def check_input_events(spaceShip, settings, screen, bullets):
+def check_input_events(settings, screen, game_stats, spaceShip, bullets, aliens, playBtn):
     for event in pg.event.get():
+        # keyboard events
         if event.type == pg.QUIT:
             sys.exit()
             
@@ -38,9 +39,26 @@ def check_input_events(spaceShip, settings, screen, bullets):
         elif event.type == pg.KEYUP:
             check_keyup_events(event, spaceShip)
             
+        # mouse events
+        if event.type == pg.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pg.mouse.get_pos()
+            if playBtn.rect.collidepoint(mouse_x, mouse_y):
+                play_button_onClick_handler(settings, screen, game_stats, bullets, aliens, spaceShip)
+                
+
+def play_button_onClick_handler(game_settings, screen, game_stats, bullets, aliens, ship):
+    game_stats.game_over = False
+    game_stats.reset_statistics()
+    
+    aliens.empty()
+    bullets.empty()
+    
+    create_fleet(screen, game_settings, aliens, ship)
+    ship.center_ship()
+            
         
 
-def update_screen(screen, game_settings, spaceShip, bullets, aliens):
+def update_screen(screen, game_settings, game_stats, spaceShip, bullets, aliens, playBtn):
     screen.fill(game_settings.background_color)
     
     # draw all the bullets stored in the bullet sprite group
@@ -50,10 +68,12 @@ def update_screen(screen, game_settings, spaceShip, bullets, aliens):
     spaceShip.draw()
     aliens.draw(screen)
     
+    if game_stats.game_over:
+        playBtn.draw()
+    
     pg.display.flip()
 
 
-    
     
 def get_total_number_of_aliens_on_a_row(game_settings, alien_width):
     # print("ALien", alien_width)
@@ -141,7 +161,7 @@ def update_bullets(bullets, aliens, game_settings, screen, ship):
         
         
 def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
-    if game_stats.ship_lives > 0:
+    if game_stats.ship_lives >= 0:
         # take away one live
         game_stats.ship_lives -= 1
     

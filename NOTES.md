@@ -23,3 +23,11 @@ Press ESC key to quit the game
 - if aliens touch ship -> lose
 - reset the game when aliens touch ship
 - aliens touch bottom?
+
+3/13
+state machine:
+    - menu
+    - play
+    - game over
+    - play again
+- button for clicking

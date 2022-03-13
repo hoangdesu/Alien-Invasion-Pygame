@@ -10,7 +10,7 @@ class Settings():
     
         # Spaceship settings
         self.space_ship_speed = 5
-        self.space_ship_lives = 2
+        self.space_ship_lives = 0
         
         # Bullet settings
         self.bullet_speed = 3
