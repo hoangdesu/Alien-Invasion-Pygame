@@ -31,3 +31,17 @@ state machine:
     - game over
     - play again
 - button for clicking
+
+
+3/16 TODOs:
+- problem with the play button => Deactivate it!
+- hiding mouse cursor
+- check mouse hover func
+
+
+
+
+- scoring system
+- press enter to play -> split code to startgame() func
+- dynamic game -> speed up factor + reset speed
+

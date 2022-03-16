@@ -13,16 +13,20 @@ def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats,
             sys.exit()
             
         if event.type == pg.KEYDOWN:
-            check_keydown_events(event, spaceShip, settings, screen, bullets)
+            check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, spaceShip)
         elif event.type == pg.KEYUP:
             check_keyup_events(event, spaceShip)
+        
         elif event.type == pg.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pg.mouse.get_pos()
             play_btn_click_handler(settings, screen, game_stats, aliens, bullets, spaceShip, play_btn, mouse_x, mouse_y)
+
+        check_mouse_hover(screen, settings, game_stats, play_btn, spaceShip, bullets, aliens)
+    
             
 
 # helper functions
-def check_keydown_events(event, spaceShip, settings, screen, bullets):
+def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, ship):
     if event.key == pg.K_RIGHT:
         spaceShip.isMovingRight = True
     elif event.key == pg.K_LEFT:
@@ -33,6 +37,8 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets):
             bullets.add(new_bullet)
     elif event.key == pg.K_ESCAPE:
         sys.exit()
+    elif event.key == pg.K_RETURN and game_stats.game_over:
+        start_game(settings, screen, game_stats, aliens, bullets, ship)
     
 def check_keyup_events(event, spaceShip):
     if event.key == pg.K_RIGHT:
@@ -41,19 +47,41 @@ def check_keyup_events(event, spaceShip):
         spaceShip.isMovingLeft = False
         
         
+def check_mouse_hover(screen, game_settings, game_stats, play_btn, ship, bullets, aliens):
+    if game_stats.game_over:
+        mouse_x, mouse_y = pg.mouse.get_pos()
+        if play_btn.rect.collidepoint(mouse_x, mouse_y):
+            play_btn.bg_color = (17, 34, 128)
+            play_btn.text_color = (250, 250, 87)
+            play_btn.prep_msg("Play!")
+            pg.mouse.set_system_cursor(pg.SYSTEM_CURSOR_HAND)
+        else:
+            play_btn.bg_color = (30, 52, 166)
+            play_btn.text_color = (255, 255, 161)
+            play_btn.prep_msg("Play!")
+            pg.mouse.set_system_cursor(pg.SYSTEM_CURSOR_ARROW)
+        update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play_btn)
+                
+    
+        
+        
 # ----------- RESET THE GAME IF THE PLAY BUTTON IS CLICKED!
 def play_btn_click_handler(game_settings, screen, game_stats, aliens, bullets, ship, play_btn, mouse_x, mouse_y):
-    if play_btn.rect.collidepoint(mouse_x, mouse_y):
-        game_stats.reset_statistics()
-        game_stats.game_over = False
-        
-        aliens.empty()
-        bullets.empty()
+    if play_btn.rect.collidepoint(mouse_x, mouse_y) and game_stats.game_over:
+        start_game(game_settings, screen, game_stats, aliens, bullets, ship)
+
+def start_game(game_settings, screen, game_stats, aliens, bullets, ship):
+    game_stats.reset_statistics()
+    game_stats.game_over = False
     
-        create_fleet(screen, game_settings, aliens, ship)
-        ship.center_ship()
-        
-        print("Game reset!")
+    aliens.empty()
+    bullets.empty()
+
+    create_fleet(screen, game_settings, aliens, ship)
+    ship.center_ship()
+    
+    print("Game reset!")
+    pg.mouse.set_visible(False)
 
 
 # ----------- update screen function --------------
@@ -178,6 +206,8 @@ def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
     else:
         # set the game state to be over
         game_stats.game_over = True
+        pg.mouse.set_visible(True)
+        
     
     
 def aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bullets):

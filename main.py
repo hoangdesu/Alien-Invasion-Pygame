@@ -24,6 +24,8 @@ def main():
     funcs.create_fleet(screen, game_settings, aliens, spaceShip)
     play_btn = Button(game_settings, screen, "Play!")
     
+    pg.mouse.set_visible(False)
+    
     # main game loop
     while True:
         funcs.check_input_events(spaceShip, game_settings, screen, bullets, aliens, game_stats, play_btn)

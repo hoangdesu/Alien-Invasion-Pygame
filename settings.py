@@ -22,5 +22,5 @@ class Settings():
         # Alien settings
         self.alien_speed = 1
         self.fleet_direction = 1  # 1 = right,  -1 = left
-        self.fleet_dropdown_speed = 40
+        self.fleet_dropdown_speed = 30
 
