@@ -10,7 +10,7 @@ class Settings():
     
         # Spaceship settings
         self.space_ship_speed = 5
-        self.space_ship_lives = 2
+        self.space_ship_lives = 0
         
         # Bullet settings
         self.bullet_speed = 3
@@ -22,5 +22,5 @@ class Settings():
         # Alien settings
         self.alien_speed = 1
         self.fleet_direction = 1  # 1 = right,  -1 = left
-        self.fleet_dropdown_speed = 30
+        self.fleet_dropdown_speed = 40
 
