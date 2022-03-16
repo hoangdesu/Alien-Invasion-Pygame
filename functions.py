@@ -6,6 +6,20 @@ from time import sleep
 from bullet import Bullet
 from alien import Alien
 
+# ------------ check for mouse and keyboard inputs --------------
+def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats, play_btn):
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            sys.exit()
+            
+        if event.type == pg.KEYDOWN:
+            check_keydown_events(event, spaceShip, settings, screen, bullets)
+        elif event.type == pg.KEYUP:
+            check_keyup_events(event, spaceShip)
+        elif event.type == pg.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pg.mouse.get_pos()
+            play_btn_click_handler(settings, screen, game_stats, aliens, bullets, spaceShip, play_btn, mouse_x, mouse_y)
+            
 
 # helper functions
 def check_keydown_events(event, spaceShip, settings, screen, bullets):
@@ -25,52 +39,38 @@ def check_keyup_events(event, spaceShip):
         spaceShip.isMovingRight = False
     elif event.key == pg.K_LEFT:
         spaceShip.isMovingLeft = False
-    
-
-# ------------ check for mouse and keyboard inputs --------------
-def check_input_events(settings, screen, game_stats, spaceShip, bullets, aliens, playBtn):
-    for event in pg.event.get():
-        # keyboard events
-        if event.type == pg.QUIT:
-            sys.exit()
-            
-        if event.type == pg.KEYDOWN:
-            check_keydown_events(event, spaceShip, settings, screen, bullets)
-        elif event.type == pg.KEYUP:
-            check_keyup_events(event, spaceShip)
-            
-        # mouse events
-        if event.type == pg.MOUSEBUTTONDOWN:
-            mouse_x, mouse_y = pg.mouse.get_pos()
-            if playBtn.rect.collidepoint(mouse_x, mouse_y):
-                play_button_onClick_handler(settings, screen, game_stats, bullets, aliens, spaceShip)
-                
-
-def play_button_onClick_handler(game_settings, screen, game_stats, bullets, aliens, ship):
-    game_stats.game_over = False
-    game_stats.reset_statistics()
-    
-    aliens.empty()
-    bullets.empty()
-    
-    create_fleet(screen, game_settings, aliens, ship)
-    ship.center_ship()
-            
         
+        
+# ----------- RESET THE GAME IF THE PLAY BUTTON IS CLICKED!
+def play_btn_click_handler(game_settings, screen, game_stats, aliens, bullets, ship, play_btn, mouse_x, mouse_y):
+    if play_btn.rect.collidepoint(mouse_x, mouse_y):
+        game_stats.reset_statistics()
+        game_stats.game_over = False
+        
+        aliens.empty()
+        bullets.empty()
+    
+        create_fleet(screen, game_settings, aliens, ship)
+        ship.center_ship()
+        
+        print("Game reset!")
 
-def update_screen(screen, game_settings, game_stats, spaceShip, bullets, aliens, playBtn):
+
+# ----------- update screen function --------------
+def update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play_btn):
     screen.fill(game_settings.background_color)
     
     # draw all the bullets stored in the bullet sprite group
     for bullet in bullets.sprites():
         bullet.draw()
     
-    spaceShip.draw()
+    ship.draw()
     aliens.draw(screen)
     
+
     if game_stats.game_over:
-        playBtn.draw()
-    
+        play_btn.draw()
+
     pg.display.flip()
 
 
@@ -119,7 +119,6 @@ def change_fleet_direction(game_settings, aliens):
     for each_alien in aliens.sprites():
         each_alien.rect.y += game_settings.fleet_dropdown_speed
     game_settings.fleet_direction = -(game_settings.fleet_direction)
-    # print("FLEET DIRECTION", game_settings.fleet_direction)
         
         
 def check_fleet_collide_with_edges(game_settings, aliens):
@@ -161,7 +160,7 @@ def update_bullets(bullets, aliens, game_settings, screen, ship):
         
         
 def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
-    if game_stats.ship_lives >= 0:
+    if game_stats.ship_lives > 0:
         # take away one live
         game_stats.ship_lives -= 1
     

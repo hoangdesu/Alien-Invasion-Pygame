@@ -22,19 +22,17 @@ def main():
     bullets = Group()
     aliens = Group()
     funcs.create_fleet(screen, game_settings, aliens, spaceShip)
-
-    playBtn = Button(game_settings, screen, "Play!")    
-    
+    play_btn = Button(game_settings, screen, "Play!")
     
     # main game loop
     while True:
-        funcs.check_input_events(game_settings, screen, game_stats, spaceShip, aliens, bullets, playBtn)
+        funcs.check_input_events(spaceShip, game_settings, screen, bullets, aliens, game_stats, play_btn)
         
         if game_stats.game_over == False:
             spaceShip.update()
             funcs.update_bullets(bullets, aliens, game_settings, screen, spaceShip)
             funcs.update_fleet(game_settings, screen, game_stats, aliens, spaceShip, bullets)
-            funcs.update_screen(screen, game_settings, game_stats, spaceShip, bullets, aliens, playBtn)
+            funcs.update_screen(screen, game_settings, game_stats, spaceShip, bullets, aliens, play_btn)
 
 if __name__ == '__main__':    
     main()
