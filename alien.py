@@ -36,7 +36,3 @@ class Alien(Sprite):
     def draw(self):
         self.screen.blit(self.sprite, self.rect)
         self.screen.blit(self.rect, self.rect)
-        
-        
-
-

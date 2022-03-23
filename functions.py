@@ -7,7 +7,7 @@ from bullet import Bullet
 from alien import Alien
 
 # ------------ check for mouse and keyboard inputs --------------
-def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats, play_btn):
+def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats, play_btn, score):
     for event in pg.event.get():
         if event.type == pg.QUIT:
             sys.exit()
@@ -21,7 +21,7 @@ def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats,
             mouse_x, mouse_y = pg.mouse.get_pos()
             play_btn_click_handler(settings, screen, game_stats, aliens, bullets, spaceShip, play_btn, mouse_x, mouse_y)
 
-        check_mouse_hover(screen, settings, game_stats, play_btn, spaceShip, bullets, aliens)
+        check_mouse_hover(screen, settings, game_stats, play_btn, spaceShip, bullets, aliens, score)
     
             
 
@@ -47,7 +47,7 @@ def check_keyup_events(event, spaceShip):
         spaceShip.isMovingLeft = False
         
         
-def check_mouse_hover(screen, game_settings, game_stats, play_btn, ship, bullets, aliens):
+def check_mouse_hover(screen, game_settings, game_stats, play_btn, ship, bullets, aliens, score):
     if game_stats.game_over:
         mouse_x, mouse_y = pg.mouse.get_pos()
         if play_btn.rect.collidepoint(mouse_x, mouse_y):
@@ -60,7 +60,7 @@ def check_mouse_hover(screen, game_settings, game_stats, play_btn, ship, bullets
             play_btn.text_color = (255, 255, 161)
             play_btn.prep_msg("Play!")
             pg.mouse.set_system_cursor(pg.SYSTEM_CURSOR_ARROW)
-        update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play_btn)
+        update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play_btn, score)
                 
     
         
@@ -85,8 +85,9 @@ def start_game(game_settings, screen, game_stats, aliens, bullets, ship):
 
 
 # ----------- update screen function --------------
-def update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play_btn):
+def update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play_btn, score):
     screen.fill(game_settings.background_color)
+    score.draw()
     
     # draw all the bullets stored in the bullet sprite group
     for bullet in bullets.sprites():
@@ -168,7 +169,7 @@ def update_fleet(game_settings, screen, game_stats, aliens, ship, bullets):
     
 
 # Update the position of all the bullets, also remove old bullets
-def update_bullets(bullets, aliens, game_settings, screen, ship):
+def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, score):
     bullets.update()
     # remove bullets that are out of the screen
     for bullet in bullets.copy():
@@ -177,13 +178,17 @@ def update_bullets(bullets, aliens, game_settings, screen, ship):
     # print("Bullets:", len(bullets))
     
     # if bullets hit aliens, kill both of the sprite groups
-    collsions = pg.sprite.groupcollide(aliens, bullets, True, True)
-    # print(collsions)
+    collisions = pg.sprite.groupcollide(aliens, bullets, True, True)
+    if collisions:
+        for aliens in collisions.values():
+            game_stats.score += game_settings.alien_points * len(aliens)
+            score.render_score()
     
     # spawn a new fleet when all the aliens are cleared!
     if (len(aliens) == 0):
         bullets.empty()
         create_fleet(screen, game_settings, aliens, ship)
+        ship.center_ship()
         print("NEW FLEET SPAWN!!!")
         
         

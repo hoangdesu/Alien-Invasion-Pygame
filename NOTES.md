@@ -37,11 +37,19 @@ state machine:
 - problem with the play button => Deactivate it!
 - hiding mouse cursor
 - check mouse hover func
-
-
-
-
-- scoring system
 - press enter to play -> split code to startgame() func
+
+3/20:
+- scoring system
+- display score
+- algorithm to format number with commas
+
+
+
+
+
+
+
+
 - dynamic game -> speed up factor + reset speed
 
