@@ -3,8 +3,10 @@ class Stats:
         self.game_settings = game_settings
         self.reset_statistics()
         self.game_over = False
-        self.score = 12873612836
+        self.score = 0
     
     def reset_statistics(self):
         self.ship_lives = self.game_settings.space_ship_lives
         self.score = 0
+
+        

@@ -16,7 +16,8 @@ class Score():
         
     # render the score from TEXT to IMAGE
     def render_score(self):
-        rounded_score = int(round(self.game_stats.score, -1))
+        # rounded_score = int(round(self.game_stats.score, -1))
+        rounded_score = int(self.game_stats.score)
         # score = "{:,}".format(rounded_score)
         score = self.format_number(rounded_score)
         self.rendered_score = self.font.render(score, True, self.text_color, self.bg_color)

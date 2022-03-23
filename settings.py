@@ -9,11 +9,11 @@ class Settings():
         self.background_color = (200, 200, 200) # gray-ish color
     
         # Spaceship settings
-        self.space_ship_speed = 3
+        self.space_ship_speed = 2
         self.space_ship_lives = 0
         
         # Bullet settings
-        self.bullet_speed = 3
+        self.bullet_speed = 2
         self.bullet_width = 4
         self.bullet_height = 15
         self.bullet_color = 80, 80, 80
@@ -22,8 +22,8 @@ class Settings():
         # Alien settings
         self.alien_speed = 0.5
         self.fleet_direction = 1  # 1 = right,  -1 = left
-        self.fleet_dropdown_speed = 20
+        self.fleet_dropdown_speed = 10
 
         # Score
-        self.alien_points = 3
+        self.alien_points = 5
 

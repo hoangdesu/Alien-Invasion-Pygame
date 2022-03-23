@@ -24,7 +24,6 @@ def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats,
         check_mouse_hover(screen, settings, game_stats, play_btn, spaceShip, bullets, aliens, score)
     
             
-
 # helper functions
 def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, ship):
     if event.key == pg.K_RIGHT:
@@ -182,6 +181,8 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
     if collisions:
         for aliens in collisions.values():
             game_stats.score += game_settings.alien_points * len(aliens)
+            # game_stats.score += 100
+            # print('[SCORE]:', game_stats.score)
             score.render_score()
     
     # spawn a new fleet when all the aliens are cleared!
@@ -189,7 +190,7 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
         bullets.empty()
         create_fleet(screen, game_settings, aliens, ship)
         ship.center_ship()
-        print("NEW FLEET SPAWN!!!")
+        # print("NEW FLEET SPAWN!!!")
         
         
 def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
