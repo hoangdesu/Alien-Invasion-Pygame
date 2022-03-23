@@ -18,7 +18,7 @@ class Score():
     def render_score(self):
         rounded_score = int(round(self.game_stats.score, -1))
         # score = "{:,}".format(rounded_score)
-        score = self.format_score(rounded_score)
+        score = self.format_number(rounded_score)
         self.rendered_score = self.font.render(score, True, self.text_color, self.bg_color)
         
         self.score_rect = self.rendered_score.get_rect()
@@ -28,16 +28,18 @@ class Score():
     def draw(self):
         self.screen.blit(self.rendered_score, self.score_rect)
     
-    def format_score(self, score):
-        score_str = str(score)
-        formatted_score = ''
-        counter = 0
-        for i in range(len(score_str) - 1, -1, -1):
-            # if counter % 3 == 0:
+    def format_number(self, num):
+        num_str = str(num)
+        result = ""
+        ctr = 1
+        for i in range(len(num_str) - 1, -1, -1):
+            result = num_str[i] + result
+            if ctr % 3 == 0 and i != 0:
+                result = "," + result
+            ctr += 1
             
-                
+        return result
+
         
-        
-        return formatted_score
-        
+
         

@@ -45,11 +45,5 @@ state machine:
 - algorithm to format number with commas
 
 
-
-
-
-
-
-
 - dynamic game -> speed up factor + reset speed
 
