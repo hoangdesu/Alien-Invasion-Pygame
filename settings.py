@@ -27,3 +27,20 @@ class Settings():
         # Score
         self.alien_points = 5
 
+        # How much the game speeds up (10%)
+        self.speedup_factor = 1.5
+        
+        self.reset_dynamic_settings()
+        
+        
+    def reset_dynamic_settings(self):
+        self.space_ship_speed = 2
+        self.bullet_speed = 2
+        self.alien_speed = 0.5
+        self.fleet_direction = 1
+        
+        
+    def increase_speed(self):
+        self.space_ship_speed *= self.speedup_factor
+        self.bullet_speed *= self.speedup_factor
+        self.alien_speed *= self.speedup_factor # == self.alien_speed = self.alien_speed * self.speedup_factor

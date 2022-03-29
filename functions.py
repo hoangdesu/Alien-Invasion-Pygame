@@ -1,10 +1,10 @@
 import sys
-from zoneinfo import available_timezones
 import pygame as pg
 from time import sleep
 
 from bullet import Bullet
 from alien import Alien
+from constants import *
 
 # ------------ check for mouse and keyboard inputs --------------
 def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats, play_btn, score):
@@ -13,19 +13,19 @@ def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats,
             sys.exit()
             
         if event.type == pg.KEYDOWN:
-            check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, spaceShip)
+            check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, spaceShip, score)
         elif event.type == pg.KEYUP:
             check_keyup_events(event, spaceShip)
         
         elif event.type == pg.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pg.mouse.get_pos()
-            play_btn_click_handler(settings, screen, game_stats, aliens, bullets, spaceShip, play_btn, mouse_x, mouse_y)
+            play_btn_click_handler(settings, screen, game_stats, aliens, bullets, spaceShip, play_btn, mouse_x, mouse_y, score)
 
         check_mouse_hover(screen, settings, game_stats, play_btn, spaceShip, bullets, aliens, score)
     
             
 # helper functions
-def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, ship):
+def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, ship, score):
     if event.key == pg.K_RIGHT:
         spaceShip.isMovingRight = True
     elif event.key == pg.K_LEFT:
@@ -37,7 +37,19 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats
     elif event.key == pg.K_ESCAPE:
         sys.exit()
     elif event.key == pg.K_RETURN and game_stats.game_over:
-        start_game(settings, screen, game_stats, aliens, bullets, ship)
+        start_game(settings, screen, game_stats, aliens, bullets, ship, score)
+        
+    
+    # For testing only
+    elif event.key == pg.K_1:
+        start_game(settings, screen, game_stats, aliens, bullets, ship, score)
+    elif event.key == pg.K_2:
+        settings.increase_speed()
+        print("INCREASED:", settings.alien_speed)
+    
+        
+        
+        
     
 def check_keyup_events(event, spaceShip):
     if event.key == pg.K_RIGHT:
@@ -65,13 +77,14 @@ def check_mouse_hover(screen, game_settings, game_stats, play_btn, ship, bullets
         
         
 # ----------- RESET THE GAME IF THE PLAY BUTTON IS CLICKED!
-def play_btn_click_handler(game_settings, screen, game_stats, aliens, bullets, ship, play_btn, mouse_x, mouse_y):
+def play_btn_click_handler(game_settings, screen, game_stats, aliens, bullets, ship, play_btn, mouse_x, mouse_y, score):
     if play_btn.rect.collidepoint(mouse_x, mouse_y) and game_stats.game_over:
-        start_game(game_settings, screen, game_stats, aliens, bullets, ship)
+        start_game(game_settings, screen, game_stats, aliens, bullets, ship, score)
 
-def start_game(game_settings, screen, game_stats, aliens, bullets, ship):
+def start_game(game_settings, screen, game_stats, aliens, bullets, ship, score):
     game_stats.reset_statistics()
     game_stats.game_over = False
+    score.render_score(SCORE_TYPES_NORMAL)
     
     aliens.empty()
     bullets.empty()
@@ -79,8 +92,9 @@ def start_game(game_settings, screen, game_stats, aliens, bullets, ship):
     create_fleet(screen, game_settings, aliens, ship)
     ship.center_ship()
     
-    print("Game reset!")
+    # print("Game reset!")
     pg.mouse.set_visible(False)
+    game_settings.init_dynamic_settings()
 
 
 # ----------- update screen function --------------
@@ -182,15 +196,17 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
         for aliens in collisions.values():
             game_stats.score += game_settings.alien_points * len(aliens)
             # game_stats.score += 100
-            # print('[SCORE]:', game_stats.score)
-            score.render_score()
+            print('[SCORE]:', game_stats.score)
+            score.render_score(SCORE_TYPES_NORMAL)
     
-    # spawn a new fleet when all the aliens are cleared!
+    # spawn a new fleet when all the aliens are cleared! + LEVEL UP! + Increase speed
     if (len(aliens) == 0):
         bullets.empty()
         create_fleet(screen, game_settings, aliens, ship)
         ship.center_ship()
-        # print("NEW FLEET SPAWN!!!")
+        game_settings.increase_speed()
+        print(game_settings.alien_speed)
+        
         
         
 def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):

@@ -44,6 +44,11 @@ state machine:
 - display score
 - algorithm to format number with commas
 
-
+3/26
+- level up: when a fleet is cleared
 - dynamic game -> speed up factor + reset speed
 
+3/29
+- high score system -> store this number somewhere so that it will not be lost when the game is restarted (JSON)
+- had level up mechanism, but no level system yet
+-> updated the high score, but score stops rendering (still counting up correctly)
