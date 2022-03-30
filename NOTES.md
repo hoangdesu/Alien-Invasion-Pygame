@@ -51,4 +51,10 @@ state machine:
 3/29
 - high score system -> store this number somewhere so that it will not be lost when the game is restarted (JSON)
 - had level up mechanism, but no level system yet
--> updated the high score, but score stops rendering (still counting up correctly)
+-> updated the high score, but score stops rendering (still counting up correctly) -> FIXED
+
+3/30
+- How to store high score without losing when we turn off the game?
+    -> storing in files: txt file, json: READ + PARSE
+    -> database system: MySQL
+    -> store in a py file: module: can just import and use directly
