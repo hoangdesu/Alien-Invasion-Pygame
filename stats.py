@@ -5,7 +5,7 @@ class Stats:
         self.game_settings = game_settings
         self.game_over = False
         self.score = 0
-        self.high_score = 0 # (read from the json file)
+        self.high_score = 0
         
         self.reset_statistics()
         self.read_high_score()
@@ -16,8 +16,11 @@ class Stats:
         
     def read_high_score(self):
         with open('./data.json') as file:
-            data = json.load(file)
-            print(data["high_score"])
-        
-
+            data = json.load(file) # dictionary!!!
+            self.high_score = int(data["high_score"])
+            
+            # same stuff
+            # big_str = file.read()
+            # data = json.loads(big_str)
+            # print('[player name]:',data["player"])    
         
