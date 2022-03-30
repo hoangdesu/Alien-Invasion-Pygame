@@ -94,7 +94,7 @@ def start_game(game_settings, screen, game_stats, aliens, bullets, ship, score):
     
     # print("Game reset!")
     pg.mouse.set_visible(False)
-    game_settings.init_dynamic_settings()
+    game_settings.reset_dynamic_settings()
 
 
 # ----------- update screen function --------------
