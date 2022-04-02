@@ -18,6 +18,7 @@ class Stats:
         with open('./data.json') as file:
             data = json.load(file) # dictionary!!!
             self.high_score = int(data["high_score"])
+            file.close()
             
             # same stuff
             # big_str = file.read()

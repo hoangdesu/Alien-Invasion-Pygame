@@ -1,3 +1,4 @@
+import json
 import sys
 import pygame as pg
 from time import sleep
@@ -95,6 +96,7 @@ def start_game(game_settings, screen, game_stats, aliens, bullets, ship, score):
     # print("Game reset!")
     pg.mouse.set_visible(False)
     game_settings.reset_dynamic_settings()
+    overwrite_highscore_to_file(game_stats)
 
 
 # ----------- update screen function --------------
@@ -198,6 +200,7 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
             # game_stats.score += 100
             print('[SCORE]:', game_stats.score)
             score.render_score(SCORE_TYPES_NORMAL)
+        replace_highscore(game_stats, score)
     
     # spawn a new fleet when all the aliens are cleared! + LEVEL UP! + Increase speed
     if (len(aliens) == 0):
@@ -237,3 +240,25 @@ def aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bu
         if alien.rect.bottom > screen.get_rect().bottom:
             reset_game(game_settings, screen, game_stats, ship, aliens, bullets)
             break
+
+
+def replace_highscore(game_stats, score):
+    if game_stats.score > game_stats.high_score:
+        game_stats.high_score = game_stats.score
+        score.render_score(SCORE_TYPES_HIGHSCORE)
+
+
+def overwrite_highscore_to_file(game_stats):
+    # DICTIONARY in Python
+    # player = input("Enter your name: ")
+    with open('./data.json', 'r') as file:
+        data = json.load(file)
+        data["high_score"] = game_stats.high_score
+        # data["player"] = player
+        with open('./data.json', 'w') as file_w:
+            json.dump(data, file_w, indent=4)
+            file_w.close()
+        
+        file.close()
+
+        # - how to correctly FORMAT the JSON

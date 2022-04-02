@@ -58,3 +58,11 @@ state machine:
     -> storing in files: txt file, json: READ + PARSE
     -> database system: MySQL
     -> store in a py file: module: can just import and use directly
+
+4/2
+- High score DONE
+- Save high score (if current score > high score) back to json when the game restarts
+
+
+
+- Implement the level function
