@@ -15,13 +15,18 @@ class Stats:
         self.score = 0
         
     def read_high_score(self):
-        with open('./data.json') as file:
-            data = json.load(file) # dictionary!!!
-            self.high_score = int(data["high_score"])
-            file.close()
+        try:
+            with open('./data.json') as file:
+                data = json.load(file) # dictionary!!!
+                self.high_score = int(data["high_score"])
+                file.close()
             
             # same stuff
             # big_str = file.read()
             # data = json.loads(big_str)
             # print('[player name]:',data["player"])    
+        except FileNotFoundError:
+            print("File not found")
+        except:
+            print("Error")
         
