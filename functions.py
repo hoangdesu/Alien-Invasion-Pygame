@@ -38,18 +38,19 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats
     elif event.key == pg.K_ESCAPE:
         sys.exit()
     elif event.key == pg.K_RETURN and game_stats.game_over:
-        start_game(settings, screen, game_stats, aliens, bullets, ship, score)
+        start_a_new_game(settings, screen, game_stats, aliens, bullets, ship, score)
         
     
     # For testing only
-    elif event.key == pg.K_1:
-        start_game(settings, screen, game_stats, aliens, bullets, ship, score)
-    elif event.key == pg.K_2:
+    elif event.key == pg.K_1:   # test for starting a new game
+        start_a_new_game(settings, screen, game_stats, aliens, bullets, ship, score)
+    elif event.key == pg.K_2:   # test for speed increase
         settings.increase_speed()
         print("INCREASED:", settings.alien_speed)
-    
-        
-        
+    elif event.key == pg.K_3:   # test for level up
+        aliens.empty()
+
+
         
     
 def check_keyup_events(event, spaceShip):
@@ -80,15 +81,19 @@ def check_mouse_hover(screen, game_settings, game_stats, play_btn, ship, bullets
 # ----------- RESET THE GAME IF THE PLAY BUTTON IS CLICKED!
 def play_btn_click_handler(game_settings, screen, game_stats, aliens, bullets, ship, play_btn, mouse_x, mouse_y, score):
     if play_btn.rect.collidepoint(mouse_x, mouse_y) and game_stats.game_over:
-        start_game(game_settings, screen, game_stats, aliens, bullets, ship, score)
+        start_a_new_game(game_settings, screen, game_stats, aliens, bullets, ship, score)
 
-def start_game(game_settings, screen, game_stats, aliens, bullets, ship, score):
+def start_a_new_game(game_settings, screen, game_stats, aliens, bullets, ship, score):
     game_stats.reset_statistics()
     game_stats.game_over = False
-    score.render_score(SCORE_TYPES_NORMAL)
     
     aliens.empty()
     bullets.empty()
+    
+    # re-render the stat images
+    score.render_score(SCORE_TYPES_NORMAL)
+    score.render_score(SCORE_TYPES_HIGHSCORE)
+    score.render_level()
 
     create_fleet(screen, game_settings, aliens, ship)
     ship.center_ship()
@@ -198,7 +203,7 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
         for aliens in collisions.values():
             game_stats.score += game_settings.alien_points * len(aliens)
             # game_stats.score += 100
-            print('[SCORE]:', game_stats.score)
+            # print('[SCORE]:', game_stats.score)
             score.render_score(SCORE_TYPES_NORMAL)
         replace_highscore(game_stats, score)
     
@@ -208,12 +213,16 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
         create_fleet(screen, game_settings, aliens, ship)
         ship.center_ship()
         game_settings.increase_speed()
-        print(game_settings.alien_speed)
+        # print(game_settings.alien_speed)
+        game_stats.level += 1
+        score.render_level()
+        sleep(1)
         
         
         
 def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
-    if game_stats.ship_lives > 0:
+    print("LIVES: ", game_stats.ship_lives)
+    if game_stats.ship_lives > 1:
         # take away one live
         game_stats.ship_lives -= 1
     
@@ -258,7 +267,4 @@ def overwrite_highscore_to_file(game_stats):
         with open('./data.json', 'w') as file_w:
             json.dump(data, file_w, indent=4)
             file_w.close()
-        
         file.close()
-
-        # - how to correctly FORMAT the JSON

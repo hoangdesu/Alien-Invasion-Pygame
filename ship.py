@@ -1,8 +1,9 @@
 import pygame as pg
+from pygame.sprite import Sprite
 
-class Ship():
-    
+class Ship(Sprite):
     def __init__(self, screen, settings):
+        super(Ship, self).__init__()
         self.screen = screen
         self.settings = settings
         
@@ -10,7 +11,7 @@ class Ship():
         self.scale_factor = 10
         self.sprite = pg.transform.scale(self.sprite, (self.sprite.get_width() // self.scale_factor , self.sprite.get_height() // self.scale_factor))
         self.rect = self.sprite.get_rect()
-        self.screen_rect = screen.get_rect()
+        self.screen_rect = self.screen.get_rect()
         
         self.isMovingRight = False
         self.isMovingLeft = False

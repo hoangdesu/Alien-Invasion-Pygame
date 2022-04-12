@@ -64,5 +64,6 @@ state machine:
 - Save high score (if current score > high score) back to json when the game restarts
 
 
-
+4/12
 - Implement the level function
+- Draw lives on score board

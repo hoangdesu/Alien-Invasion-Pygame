@@ -10,7 +10,7 @@ class Settings():
     
         # Spaceship settings
         self.space_ship_speed = 2
-        self.space_ship_lives = 0
+        self.space_ship_lives = 3
         
         # Bullet settings
         self.bullet_speed = 2
@@ -20,15 +20,15 @@ class Settings():
         self.bullets_max_allowed = 10
         
         # Alien settings
-        self.alien_speed = 0.5
+        self.alien_speed = 1
         self.fleet_direction = 1  # 1 = right,  -1 = left
         self.fleet_dropdown_speed = 10
 
         # Score
         self.alien_points = 5
 
-        # How much the game speeds up (10%)
-        self.speedup_factor = 1.5
+        # How much the game speeds up (50%)
+        self.speedup_factor = 1.1
         
         self.reset_dynamic_settings()
         
