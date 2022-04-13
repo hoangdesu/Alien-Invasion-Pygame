@@ -11,7 +11,7 @@ class Score():
         self.screen_rect = screen.get_rect()
         self.gap = 10
         self.heart = pg.image.load('./assets/heart.png')
-        self.heart_scale_down_factor = 50
+        self.heart_scale_down_factor = 45
         self.heart = pg.transform.scale(
             self.heart,
             (self.heart.get_width() // self.heart_scale_down_factor, self.heart.get_height() // self.heart_scale_down_factor)
@@ -21,10 +21,9 @@ class Score():
         self.bg_color = (200, 200, 200)
         self.font = pg.font.Font(None, 40)
 
-        self.render_level()
-        self.render_lives()
         self.render_score(SCORE_TYPES_NORMAL)
         self.render_score(SCORE_TYPES_HIGHSCORE)
+        self.render_level()
         self.render_lives()
         
         
@@ -77,19 +76,6 @@ class Score():
         self.rendered_level_rect = self.rendered_level.get_rect()
         self.rendered_level_rect.left = self.gap
         self.rendered_level_rect.top = self.gap
-        
-    
-    def render_lives(self):
-        self.lives = Group()
-        for ship_live in range(self.game_stats.ship_lives):
-            live = Ship(self.game_settings, self.screen)
-            live.rect.x = self.gap + ship_live * live.rect.width
-            live.rect.y = self.gap
-            self.lives.add(live)
-            
-        
-        
-        
 
 
     def render_level(self):
@@ -97,10 +83,11 @@ class Score():
         self.rendered_level = self.font.render(msg, True, self.text_color, self.bg_color)
         self.level_rect = self.rendered_level.get_rect()
         self.level_rect.left = self.gap
-        self.level_rect.top = self.gap + 50
+        self.level_rect.top = self.normal_score_rect.bottom + self.gap
         
 
     def render_lives(self):
+        # // use this to render ship sprite 
         # self.ships = Group()
         # for i in range(self.game_stats.ship_lives):
         #     ship = Ship(self.screen, self.game_settings)
@@ -110,9 +97,7 @@ class Score():
         
         for i in range(1, self.game_stats.ship_lives + 1):
             heart_rect = self.heart.get_rect()
-            heart_rect.x = self.screen_rect.right - (50 * i)
-            heart_rect.y = 60
+            heart_rect.x = self.screen_rect.right - ((heart_rect.width + self.gap) * i)
+            heart_rect.y = self.high_score_rect.bottom + self.gap
             self.screen.blit(self.heart, heart_rect)
-            
-
         
