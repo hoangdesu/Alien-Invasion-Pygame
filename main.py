@@ -35,7 +35,7 @@ def main():
         if game_stats.game_over == False:
             spaceShip.update()
             funcs.update_bullets(bullets, aliens, game_settings, screen, spaceShip, game_stats, score)
-            funcs.update_fleet(game_settings, screen, game_stats, aliens, spaceShip, bullets)
+            funcs.update_fleet(game_settings, screen, game_stats, aliens, spaceShip, bullets, score)
             funcs.update_screen(screen, game_settings, game_stats, spaceShip, bullets, aliens, play_btn, score)
 
 if __name__ == '__main__':    

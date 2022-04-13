@@ -1,5 +1,8 @@
-import pygame
+import pygame as pg
 from constants import *
+from pygame.sprite import Group
+
+from ship import Ship
 
 class Score():
     def __init__(self, game_settings, screen, game_stats):
@@ -8,13 +11,19 @@ class Score():
         self.game_stats = game_stats
         self.screen_rect = screen.get_rect()
         self.gap = 10
-        
+        self.heart = pg.image.load('./assets/heart.png')
+        self.heart_scale_down_factor = 50
+        self.heart = pg.transform.scale(
+            self.heart,
+            (self.heart.get_width() // self.heart_scale_down_factor, self.heart.get_height() // self.heart_scale_down_factor)
+        )
         # font settings for the score
         self.text_color = (50, 50, 50)
         self.bg_color = (200, 200, 200)
-        self.font = pygame.font.Font(None, 40)
+        self.font = pg.font.Font(None, 40)
 
         self.render_level()
+        self.render_lives()
         self.render_score(SCORE_TYPES_NORMAL)
         self.render_score(SCORE_TYPES_HIGHSCORE)
         
@@ -44,6 +53,8 @@ class Score():
         self.screen.blit(self.normal_score, self.normal_score_rect)
         self.screen.blit(self.high_score, self.high_score_rect)
         self.screen.blit(self.rendered_level, self.level_rect)
+        # self.ships.draw(self.screen)
+        self.render_lives()
     
     
     def format_number(self, num):
@@ -66,6 +77,19 @@ class Score():
         self.level_rect.top = self.gap + 50
         
 
+    def render_lives(self):
+        # self.ships = Group()
+        # for i in range(self.game_stats.ship_lives):
+        #     ship = Ship(self.screen, self.game_settings)
+        #     ship.rect.x = self.gap + (ship.rect.width * i)
+        #     ship.rect.y = self.gap
+        #     self.ships.add(ship)
         
+        for i in range(1, self.game_stats.ship_lives + 1):
+            heart_rect = self.heart.get_rect()
+            heart_rect.x = self.screen_rect.right - (50 * i)
+            heart_rect.y = 60
+            self.screen.blit(self.heart, heart_rect)
+            
 
         
