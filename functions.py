@@ -42,29 +42,17 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats
         
     
     # For testing only
-<<<<<<< HEAD
     elif event.key == pg.K_1:   # test for starting a new game
         start_a_new_game(settings, screen, game_stats, aliens, bullets, ship, score)
     elif event.key == pg.K_2:   # test for speed increase
         settings.increase_speed()
-        print("INCREASED:", settings.alien_speed)
+        # print("INCREASED:", settings.alien_speed)
     elif event.key == pg.K_3:   # test for level up
         aliens.empty()
 
 
         
     
-=======
-    elif event.key == pg.K_1:
-        start_a_new_game(settings, screen, game_stats, aliens, bullets, ship, score)
-    elif event.key == pg.K_2:
-        settings.increase_speed()
-        # print("INCREASED:", settings.alien_speed)
-    elif event.key == pg.K_3:
-        aliens.empty()
-    
-        
->>>>>>> fa5ffa80
 def check_keyup_events(event, spaceShip):
     if event.key == pg.K_RIGHT:
         spaceShip.isMovingRight = False
@@ -230,16 +218,6 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
         ship.center_ship()
         game_settings.increase_speed()
         # print(game_settings.alien_speed)
-<<<<<<< HEAD
-        game_stats.level += 1
-        score.render_level()
-        sleep(1)
-        
-        
-        
-def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
-    print("LIVES: ", game_stats.ship_lives)
-=======
         
         # level cleared
         game_stats.level += 1
@@ -251,7 +229,6 @@ def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
         
         
 def reset_game(game_settings, screen, game_stats, ship, aliens, bullets, score):
->>>>>>> fa5ffa80
     if game_stats.ship_lives > 1:
         # take away one live
         game_stats.ship_lives -= 1

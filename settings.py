@@ -20,15 +20,15 @@ class Settings():
         self.bullets_max_allowed = 10
         
         # Alien settings
-        self.alien_speed = 1
+        self.alien_speed = 2
         self.fleet_direction = 1  # 1 = right,  -1 = left
         self.fleet_dropdown_speed = 10
 
         # Score
         self.alien_points = 5
 
-        # How much the game speeds up (50%)
-        self.speedup_factor = 1.1
+        # How much the game speeds up (20%)
+        self.speedup_factor = 1.2
         
         self.reset_dynamic_settings()
         

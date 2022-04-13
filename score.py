@@ -1,10 +1,6 @@
 import pygame as pg
 from constants import *
 from pygame.sprite import Group
-<<<<<<< HEAD
-=======
-
->>>>>>> fa5ffa80
 from ship import Ship
 
 class Score():
@@ -14,15 +10,6 @@ class Score():
         self.game_stats = game_stats
         self.screen_rect = screen.get_rect()
         self.gap = 10
-<<<<<<< HEAD
-        
-        # font settings for the score
-        self.text_color = (50, 50, 50)
-        self.bg_color = (200, 200, 200)
-        self.font = pygame.font.Font(None, 35)
-
-        self.render_level()
-=======
         self.heart = pg.image.load('./assets/heart.png')
         self.heart_scale_down_factor = 50
         self.heart = pg.transform.scale(
@@ -36,7 +23,6 @@ class Score():
 
         self.render_level()
         self.render_lives()
->>>>>>> fa5ffa80
         self.render_score(SCORE_TYPES_NORMAL)
         self.render_score(SCORE_TYPES_HIGHSCORE)
         self.render_lives()
@@ -52,11 +38,7 @@ class Score():
             score = "Score: " + self.format_number(rounded_score)
             self.normal_score = self.font.render(score, True, self.text_color, self.bg_color)
             self.normal_score_rect = self.normal_score.get_rect()
-<<<<<<< HEAD
-            self.normal_score_rect.top = self.rendered_level_rect.bottom + self.gap
-=======
             self.normal_score_rect.top = self.gap
->>>>>>> fa5ffa80
             self.normal_score_rect.left = self.screen_rect.left + self.gap
             
         elif score_type == SCORE_TYPES_HIGHSCORE:
@@ -71,16 +53,10 @@ class Score():
     def draw(self):
         self.screen.blit(self.normal_score, self.normal_score_rect)
         self.screen.blit(self.high_score, self.high_score_rect)
-<<<<<<< HEAD
-        self.screen.blit(self.rendered_level, self.rendered_level_rect)
-        self.lives.draw(self.screen)
-        
-=======
         self.screen.blit(self.rendered_level, self.level_rect)
         # self.ships.draw(self.screen)
         self.render_lives()
     
->>>>>>> fa5ffa80
     
     def format_number(self, num):
         num_str = str(num)

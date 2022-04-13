@@ -13,11 +13,8 @@ class Stats:
     
     def reset_statistics(self):
         self.ship_lives = self.game_settings.space_ship_lives
-<<<<<<< HEAD
-=======
         self.score = 0
         self.level = 1
->>>>>>> fa5ffa80
         
     def read_high_score(self):
         try:
