@@ -64,5 +64,7 @@ state machine:
 - Save high score (if current score > high score) back to json when the game restarts
 
 
-
-- Implement the level function
+4/13
+- Implement the lives system
+- Fix bugs
+- Draw hearts
