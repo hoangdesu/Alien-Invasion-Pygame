@@ -42,6 +42,7 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats
         
     
     # For testing only
+<<<<<<< HEAD
     elif event.key == pg.K_1:   # test for starting a new game
         start_a_new_game(settings, screen, game_stats, aliens, bullets, ship, score)
     elif event.key == pg.K_2:   # test for speed increase
@@ -53,6 +54,17 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats
 
         
     
+=======
+    elif event.key == pg.K_1:
+        start_a_new_game(settings, screen, game_stats, aliens, bullets, ship, score)
+    elif event.key == pg.K_2:
+        settings.increase_speed()
+        # print("INCREASED:", settings.alien_speed)
+    elif event.key == pg.K_3:
+        aliens.empty()
+    
+        
+>>>>>>> fa5ffa80
 def check_keyup_events(event, spaceShip):
     if event.key == pg.K_RIGHT:
         spaceShip.isMovingRight = False
@@ -97,6 +109,11 @@ def start_a_new_game(game_settings, screen, game_stats, aliens, bullets, ship, s
 
     create_fleet(screen, game_settings, aliens, ship)
     ship.center_ship()
+    
+    score.render_level()
+    score.render_score(SCORE_TYPES_NORMAL)
+    score.render_score(SCORE_TYPES_HIGHSCORE)
+    score.render_lives()
     
     # print("Game reset!")
     pg.mouse.set_visible(False)
@@ -177,15 +194,15 @@ def check_fleet_collide_with_edges(game_settings, aliens):
             break
         
     
-def update_fleet(game_settings, screen, game_stats, aliens, ship, bullets):
+def update_fleet(game_settings, screen, game_stats, aliens, ship, bullets, score):
     check_fleet_collide_with_edges(game_settings, aliens)
     aliens.update()
 
     # check collision between ship vs any alien sprite
     if pg.sprite.spritecollideany(ship, aliens):
-        reset_game(game_settings, screen, game_stats, ship, aliens, bullets)
+        reset_game(game_settings, screen, game_stats, ship, aliens, bullets, score)
         
-    aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bullets)
+    aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bullets, score)
     
 
 # Update the position of all the bullets, also remove old bullets
@@ -210,10 +227,10 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
     # spawn a new fleet when all the aliens are cleared! + LEVEL UP! + Increase speed
     if (len(aliens) == 0):
         bullets.empty()
-        create_fleet(screen, game_settings, aliens, ship)
         ship.center_ship()
         game_settings.increase_speed()
         # print(game_settings.alien_speed)
+<<<<<<< HEAD
         game_stats.level += 1
         score.render_level()
         sleep(1)
@@ -222,10 +239,22 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
         
 def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
     print("LIVES: ", game_stats.ship_lives)
+=======
+        
+        # level cleared
+        game_stats.level += 1
+        score.render_level()
+
+        create_fleet(screen, game_settings, aliens, ship)
+        
+        
+        
+        
+def reset_game(game_settings, screen, game_stats, ship, aliens, bullets, score):
+>>>>>>> fa5ffa80
     if game_stats.ship_lives > 1:
         # take away one live
         game_stats.ship_lives -= 1
-    
     
         # clear all the sprites on screen
         bullets.empty()
@@ -236,18 +265,20 @@ def reset_game(game_settings, screen, game_stats, ship, aliens, bullets):
         
         # pause for 1s before the replay
         sleep(1)
-        
     else:
         # set the game state to be over
+        game_stats.ship_lives -= 1
+        score.render_lives()
         game_stats.game_over = True
+
         pg.mouse.set_visible(True)
         
     
     
-def aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bullets):
+def aliens_hit_screen_bottom(game_settings, screen, game_stats, ship, aliens, bullets, score):
     for alien in aliens.sprites():
         if alien.rect.bottom > screen.get_rect().bottom:
-            reset_game(game_settings, screen, game_stats, ship, aliens, bullets)
+            reset_game(game_settings, screen, game_stats, ship, aliens, bullets, score)
             break
 
 
