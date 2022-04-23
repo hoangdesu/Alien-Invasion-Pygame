@@ -8,13 +8,13 @@ from alien import Alien
 from constants import *
 
 # ------------ check for mouse and keyboard inputs --------------
-def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats, play_btn, score):
+def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats, play_btn, score, sound):
     for event in pg.event.get():
         if event.type == pg.QUIT:
             sys.exit()
             
         if event.type == pg.KEYDOWN:
-            check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, spaceShip, score)
+            check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, spaceShip, score, sound)
         elif event.type == pg.KEYUP:
             check_keyup_events(event, spaceShip)
         
@@ -26,7 +26,7 @@ def check_input_events(spaceShip, settings, screen, bullets, aliens, game_stats,
     
             
 # helper functions
-def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, ship, score):
+def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats, aliens, ship, score, sound):
     if event.key == pg.K_RIGHT:
         spaceShip.isMovingRight = True
     elif event.key == pg.K_LEFT:
@@ -35,6 +35,7 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats
         if len(bullets) < settings.bullets_max_allowed:
             new_bullet = Bullet(settings, screen, spaceShip)
             bullets.add(new_bullet)
+            sound.pewpew.play()
     elif event.key == pg.K_ESCAPE:
         sys.exit()
     elif event.key == pg.K_RETURN and game_stats.game_over:

@@ -9,7 +9,7 @@ class Settings():
         self.background_color = (200, 200, 200) # gray-ish color
     
         # Spaceship settings
-        self.space_ship_speed = 2
+        self.space_ship_speed = 0
         self.space_ship_lives = 3
         
         # Bullet settings
@@ -20,7 +20,7 @@ class Settings():
         self.bullets_max_allowed = 10
         
         # Alien settings
-        self.alien_speed = 2
+        self.alien_speed = 0
         self.fleet_direction = 1  # 1 = right,  -1 = left
         self.fleet_dropdown_speed = 10
 
@@ -34,9 +34,9 @@ class Settings():
         
         
     def reset_dynamic_settings(self):
-        self.space_ship_speed = 2
-        self.bullet_speed = 2
-        self.alien_speed = 0.5
+        self.space_ship_speed = 10
+        self.bullet_speed = 5
+        self.alien_speed = 1.5
         self.fleet_direction = 1
         
         

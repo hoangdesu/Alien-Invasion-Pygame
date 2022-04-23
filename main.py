@@ -8,10 +8,13 @@ import functions as funcs
 from stats import Stats
 from button import Button
 from score import Score
+from sound import Sound
 
 def main():
+    sound = Sound()
     pg.init()
     
+    clock = pg.time.Clock()
     game_settings = Settings() # create an object from a class
     game_stats = Stats(game_settings)
     
@@ -30,13 +33,17 @@ def main():
     
     # main game loop
     while True:
-        funcs.check_input_events(spaceShip, game_settings, screen, bullets, aliens, game_stats, play_btn, score)
+        funcs.check_input_events(spaceShip, game_settings, screen, bullets, aliens, game_stats, play_btn, score, sound)
         
         if game_stats.game_over == False:
             spaceShip.update()
             funcs.update_bullets(bullets, aliens, game_settings, screen, spaceShip, game_stats, score)
             funcs.update_fleet(game_settings, screen, game_stats, aliens, spaceShip, bullets, score)
             funcs.update_screen(screen, game_settings, game_stats, spaceShip, bullets, aliens, play_btn, score)
+            
+        sound.bgm.play()
+        clock.tick(60)
+        
 
 if __name__ == '__main__':    
     main()

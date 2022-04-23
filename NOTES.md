@@ -69,3 +69,14 @@ state machine:
 - Fix bugs
 - Draw hearts
 - TODO: fix stat numbers with correct calculations, remove hard code
+
+
+4/23
+- Setting up new laptop
+- Cap the frame rate at 60fps
+- Add sound effects + bgm (background music)
+- Change background
+- Display different screens depending on the game state: Menu, Play, Score
+- Nice to have features: 
+    + select skins for spaceship
+
