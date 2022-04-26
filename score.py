@@ -70,7 +70,6 @@ class Score():
 
     def render_level(self):
         msg = "Level: " + str(self.game_stats.level)
-        # print(msg)
         self.rendered_level = self.font.render(msg, True, self.text_color, self.bg_color)
         self.rendered_level_rect = self.rendered_level.get_rect()
         self.rendered_level_rect.left = self.gap
