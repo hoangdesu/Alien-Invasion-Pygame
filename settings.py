@@ -1,5 +1,6 @@
 # Store all settings for the game in a separate file
 
+import pygame as pg
 class Settings():
     def __init__(self):
         
@@ -7,6 +8,7 @@ class Settings():
         self.screen_width = 900
         self.screen_height = 600
         self.background_color = (200, 200, 200) # gray-ish color
+        self.background = pg.image.load('./assets/background.jpeg')
     
         # Spaceship settings
         self.space_ship_speed = 0

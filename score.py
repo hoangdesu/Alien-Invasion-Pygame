@@ -27,7 +27,6 @@ class Score():
         self.render_lives()
         
         
-        
     # render the score from TEXT to IMAGE
     def render_score(self, score_type):
         # rounded_score = int(round(self.game_stats.score, -1)) round the number to the nearest ten-th (123 -> 120)

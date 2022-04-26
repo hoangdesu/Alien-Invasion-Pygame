@@ -80,3 +80,7 @@ state machine:
 - Nice to have features: 
     + select skins for spaceship
 
+4/26
+- Collect all the missing sounds
+- Design your own game! (choose your audio, your background, your color...)
+

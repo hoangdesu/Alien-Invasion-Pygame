@@ -1,12 +1,15 @@
 import json
+from constants import *
 
 class Stats:
+
     def __init__(self, game_settings):
         self.game_settings = game_settings
         self.game_over = False
         self.score = 0
         self.high_score = 0
         self.level = 1
+        self.game_state = GAME_STATE_MENU
         
         self.reset_statistics()
         self.read_high_score()

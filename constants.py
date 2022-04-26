@@ -1,2 +1,5 @@
 SCORE_TYPES_NORMAL = 'normal'
 SCORE_TYPES_HIGHSCORE = 'highscore'
+
+GAME_STATE_MENU = 'menu'
+GAME_STATE_PLAY = 'play'

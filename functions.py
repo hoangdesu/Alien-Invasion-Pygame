@@ -36,10 +36,24 @@ def check_keydown_events(event, spaceShip, settings, screen, bullets, game_stats
             new_bullet = Bullet(settings, screen, spaceShip)
             bullets.add(new_bullet)
             sound.pewpew.play()
-    elif event.key == pg.K_ESCAPE:
+            # pg.mixer.Channel(1).play(sound.pewpew, maxtime=600)
+    elif event.key == pg.K_ESCAPE and game_stats.game_state == GAME_STATE_MENU:
         sys.exit()
     elif event.key == pg.K_RETURN and game_stats.game_over:
         start_a_new_game(settings, screen, game_stats, aliens, bullets, ship, score)
+    elif event.key == pg.K_m:
+        vol = sound.bgm.get_volume()
+        if vol > 0: # sound playing
+            sound.bgm.set_volume(0)
+        else:
+            sound.bgm.set_volume(0.08)
+    
+    # event triggering state transition
+    elif event.key == pg.K_RETURN:
+        if game_stats.game_state == GAME_STATE_MENU:
+           game_stats.game_state = GAME_STATE_PLAY
+    elif event.key == pg.K_ESCAPE and game_stats.game_state == GAME_STATE_PLAY:
+        game_stats.game_state = GAME_STATE_MENU
         
     
     # For testing only
@@ -112,7 +126,9 @@ def start_a_new_game(game_settings, screen, game_stats, aliens, bullets, ship, s
 
 # ----------- update screen function --------------
 def update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play_btn, score):
-    screen.fill(game_settings.background_color)
+    # screen.fill(game_settings.background_color)
+    screen.blit(game_settings.background, (0, 0))
+    
     score.draw()
     
     # draw all the bullets stored in the bullet sprite group
@@ -121,13 +137,11 @@ def update_screen(screen, game_settings, game_stats, ship, bullets, aliens, play
     
     ship.draw()
     aliens.draw(screen)
-    
 
     if game_stats.game_over:
         play_btn.draw()
 
     pg.display.flip()
-
 
     
 def get_total_number_of_aliens_on_a_row(game_settings, alien_width):
@@ -195,7 +209,7 @@ def update_fleet(game_settings, screen, game_stats, aliens, ship, bullets, score
     
 
 # Update the position of all the bullets, also remove old bullets
-def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, score):
+def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, score, sound):
     bullets.update()
     # remove bullets that are out of the screen
     for bullet in bullets.copy():
@@ -211,6 +225,7 @@ def update_bullets(bullets, aliens, game_settings, screen, ship, game_stats, sco
             # game_stats.score += 100
             # print('[SCORE]:', game_stats.score)
             score.render_score(SCORE_TYPES_NORMAL)
+            sound.boom.play()
         replace_highscore(game_stats, score)
     
     # spawn a new fleet when all the aliens are cleared! + LEVEL UP! + Increase speed
