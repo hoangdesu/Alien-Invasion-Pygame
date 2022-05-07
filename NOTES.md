@@ -84,3 +84,16 @@ state machine:
 - Collect all the missing sounds
 - Design your own game! (choose your audio, your background, your color...)
 
+5/7
+- FSM: Finite State Machine: describes all the states belong to a machine (program)
+- Events: are actions when triggered will make the machine transition from one state to another
+
+-> Suggestions: you might wanna have more than 2 states:
+example states: 
+    - Menu
+    - Tutorial/Settings (change skin for the player)
+    - Game state (kinda done :D)
+    - High score state: to display a list of top players (change 1 player in JSON to a list of players, sort them from high to low, maybe allow them to enter their name before you save)
+- Leaderboard/Top players screen + read/write function
+de-throne (chiếm ngôi)
+-> to increase the competition

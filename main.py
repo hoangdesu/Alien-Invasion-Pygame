@@ -33,9 +33,7 @@ def main():
     pg.mouse.set_visible(False)
     
     # sound.bgm.play(loops=-1)
-    pg.mixer.Channel(0).play(sound.bgm, -1)
-    
-    
+    # pg.mixer.Channel(0).play(sound.bgm, loops=-1)
     
     font = pg.font.Font(None, 40)
     font_img = font.render("WELCOME", True, (50, 50, 50), (200, 200, 200))
